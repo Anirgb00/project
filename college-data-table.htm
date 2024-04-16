@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>College Data Table</title>
+</head>
+<body>
+  <table>
+    <thead>
+      <tr>
+        <th>College Name</th>
+        <th>Featured</th>
+        <th>Collegedunia Rating</th>
+        <th>Fees</th>
+        <th>User Review Rating</th>
+      </tr>
+    </thead>
+    <tbody id="college-data">
+    </tbody>
+  </table>
+  <button id="load-more">Load More</button>
+
+  <script>
+  const collegesData = [
+    {
+      "name": "Indian Institute of Technology, Delhi",
+      "featured": true,
+      "collegeduniaRating": 4.8,
+      "fees": 100000,
+      "userReviewRating": 4.5
+    },
+    {
+      "name": "Indian Institute of Technology, Bombay",
+      "featured": false,
+      "collegeduniaRating": 4.9,
+      "fees": 120000,
+      "userReviewRating": 4.7
+    },
+    // ... add more college data following the same structure
+  ];
+
+  const collegeTableBody = document.getElementById('college-data');
+  const loadMoreButton = document.getElementById('load-more');
+
+  let currentPage = 1;
+  const rowsPerPage = 10;
+
+  function displayColleges(data) {
+    data.forEach(college => {
+      const tableRow = document.createElement('tr');
+      const featuredCell = college.featured ? 'Yes' : 'No';
+
+      tableRow.innerHTML = `
+        <td>${college.name}</td>
+        <td>${featuredCell}</td>
+        <td>${college.collegeduniaRating}</td>
+        <td>${college.fees}</td>
+        <td>${college.userReviewRating}</td>
+      `;
+
+      collegeTableBody.appendChild(tableRow);
+    });
+  }
+
+  function loadMoreColleges() {
+    const startIndex = currentPage * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
+    const collegesToShow = collegesData.slice(startIndex, endIndex);
+
+    displayColleges(collegesToShow);
+    currentPage++;
+
+    if (endIndex >= collegeData.length) {
+      loadMoreButton.disabled = true;
+    }
+  }
+
+  displayColleges(collegeData.slice(0, rowsPerPage)); // Display initial rows
+
+  loadMoreButton.addEventListener('click', loadMoreColleges);
+
+  // Add sorting and search functionality based on your requirements (explained below)
+  </script>
+</body>
+</html>
